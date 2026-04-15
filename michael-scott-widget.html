@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael Scott — Quote of the Hour</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+  }
+  .quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.7;
+    max-width: 520px;
+    text-align: center;
+    transition: opacity 0.4s ease;
+  }
+  .quote.fade { opacity: 0; }
+</style>
+</head>
+<body>
+  <p class="quote" id="quote"></p>
+<script>
+const quotes = [
+  "Would I rather be feared or loved? Easy. Both. I want people to be afraid of how much they love me.",
+  "I'm not superstitious, but I am a little stitious.",
+  "I declare bankruptcy!",
+  "Sometimes I'll start a sentence and I don't even know where it's going. I just hope I find it along the way.",
+  "I am Beyoncé, always.",
+  "I love inside jokes. I hope to be a part of one someday.",
+  "Abraham Lincoln once said, 'If you're a racist, I will attack you with the North.' And those are the principles I carry with me in the workplace.",
+  "The people that I work with are, for the most part, idiots.",
+  "Do I need to be liked? Absolutely not. I like to be liked. I enjoy being liked. I have to be liked. But it's not like a compulsive need to be liked. Like my need to be praised.",
+  "I knew exactly what to do. But in a much more real sense, I had no idea what to do.",
+  "You miss 100% of the shots you don't take. — Wayne Gretzky — Michael Scott",
+  "Guess what? I have flaws. What are they? Oh, I don't know. I sing in the shower. Sometimes I spend too much time volunteering. Occasionally I'll hit somebody with my car. So sue me.",
+  "I'm an early bird and I'm a night owl. So I'm wise and I have worms.",
+  "Wikipedia is the best thing ever. Anyone in the world can write anything they want about any subject. So you know you are getting the best possible information.",
+  "I want to be married and have kids and be the best dad ever. Just like my dad. Except he left when I was six.",
+  "This is the job. You show up, you do the work. And then one day you die.",
+  "The worst thing about prison was the dementors. They were flying all over the place and they were scary and they'd come down and they'd suck the soul out of your body.",
+  "I love my employees. Even though I hit one with my car.",
+  "An office is not for dying. An office is a place for living life to the fullest.",
+  "Business is a doggy-dog world.",
+  "I'm not a millionaire. I thought I would be by the time I was thirty, but I wasn't even close. Then I thought maybe by forty, but by forty I had less money than I did when I was thirty.",
+  "People will never be replaced by machines. In the end, life and business are about human connections. And computers are about trying to murder you in a lake.",
+  "I am running away from my responsibilities. And it feels good.",
+  "I am Michael Scott. And I am ready to be a father.",
+  "I feel like all my kids grew up and then they married each other. It's every parent's dream.",
+  "There's no 'I' in team, but there is an 'I' in pie. And there's an 'I' in meat pie. Anagram of meat is team. I don't know what I'm saying.",
+  "Make friends first, make sales second, make love third. In no particular order.",
+  "Fool me once, strike one. Fool me twice, strike three.",
+  "I have a lot of questions. Number one: how dare you?",
+  "I want today to be a beautiful memory that the staff and I share after I have passed, and they are telling the story of the greatest boss they ever had.",
+  "I live by one rule: No office romances, no way. Very messy, inappropriate... no. But I live by another rule: Just do it. Nike.",
+  "If I had a gun with two bullets and I was in a room with Hitler, Bin Laden and Toby, I would shoot Toby twice.",
+  "My philosophy is basically this: Don't ever, for any reason, do anything to anyone for any reason ever, no matter what, no matter where, or who you are with, or where you've been, ever, for any reason whatsoever.",
+  "I am the best thing that ever happened to this company. And possibly the world.",
+  "You know what they say: fool me once, shame on you. But teach a man to fool me and I'll be fooled for the rest of my life.",
+  "Sometimes you have to take a break from being the kind of boss that's always trying to teach people things. Sometimes you just have to be the boss of dancing.",
+  "That's what she said.",
+  "I stopped caring a long time ago. But now I need to start caring again, or I will die.",
+  "I'm very fast. I'm like a cheetah. And not in a cheetah-print way. In a fast way.",
+  "It's not about the money. It's about sending a message. Everything is about money.",
+  "I think I'm a pretty good judge of character. That's why I'm in management.",
+  "Creativity is allowing yourself to make mistakes. Art is knowing which ones to keep.",
+  "Would I rather work with people I love? No. I would rather work with people I like. There's a difference.",
+  "I am a great boss. I am also a great friend. And I am also kind of a big deal.",
+  "The key to a good presentation is to dress well. And to have a great body. And to be incredibly charming.",
+  "I don't want somebody sucking up to me because they think I am going to help their career. I want them to suck up to me because they genuinely love me.",
+  "Presents are the best way to show someone how much you care. It is like this tangible thing that you can point to and say, 'Hey man, I love you this many dollars worth.'",
+  "I am running this branch like a 20-year-old runs a Ferrari. Recklessly and with no regard for the future.",
+  "I hate, hate, hate being left out. Whether it's not being invited to a party, or not knowing an inside joke, or whatever. I need to be in the know.",
+  "Never, ever, ever give up. Unless it's really hard, in which case, absolutely give up.",
+  "I'm not a hero. I'm just a man who made a difference. That's basically the definition of a hero.",
+  "I am the puppet master. I pull the strings. And everyone dances. And I watch. And it's beautiful.",
+  "I love this place. And I hate it. And I love it. It's complicated. Like most great loves.",
+  "To be a good manager, you have to be a good friend. And I am the best friend anyone has ever had.",
+  "I take criticism very well. I just choose not to apply it.",
+  "Life is short. Drive fast. Leave a sexy corpse. That's one of my mottos.",
+  "There are certain things that I just know. And one of those things is that I am an excellent driver.",
+  "If I had a superpower, it would be to have unlimited superpowers.",
+  "Some people say that I am too generous. Those people have never needed something from me.",
+  "The best thing about being a regional manager is that I get to be the captain of this little ship.",
+  "I don't understand the rules of soup. I've been eating it wrong my whole life.",
+  "When I said that we were going to run this company like a machine, I pictured more of a fun machine. Like a pinball machine.",
+  "I am fluent in French, Spanish, and English. And I am conversational in Italian, Japanese, and German. None of this is true.",
+  "My weakness? I care too much. And I work too hard. And sometimes I'm too nice to people who don't deserve it.",
+  "I am not afraid of heights. I am afraid of width.",
+  "I would not say I am the world's best boss. I would say that I am one of the top... ones.",
+  "I always say, if you can make just one person smile today, you've wasted the rest of your day.",
+  "It's a beautiful day. The sun is shining, the birds are singing. And I am the king of the world.",
+  "I am not the kind of guy who says, 'I told you so.' But I am the kind of guy who thinks it very loudly.",
+  "Identity theft is not a joke, Jim! Millions of families suffer every year!",
+  "I am so lucky to have been raised right. My mother always said: Michael, if you can dream it, you can do it. And I dreamed of being the world's best boss. So here we are.",
+  "I need people to be afraid of how much they love me. That is the goal. That has always been the goal.",
+  "I would not be a good astronaut. Not because I'm not smart enough, but because I'd want to be the pilot. And you can't always be the pilot."
+];
+
+function getHourlyIndex() {
+  return Math.floor(Date.now() / 3600000) % quotes.length;
+}
+
+function getSecondsUntilNextHour() {
+  const now = new Date();
+  return 3600 - (now.getMinutes() * 60 + now.getSeconds());
+}
+
+document.getElementById('quote').textContent = '\u201c' + quotes[getHourlyIndex()] + '\u201d';
+
+let secondsLeft = getSecondsUntilNextHour();
+setInterval(() => {
+  secondsLeft--;
+  if (secondsLeft <= 0) {
+    secondsLeft = 3600;
+    const el = document.getElementById('quote');
+    el.classList.add('fade');
+    setTimeout(() => {
+      el.textContent = '\u201c' + quotes[getHourlyIndex()] + '\u201d';
+      el.classList.remove('fade');
+    }, 400);
+  }
+}, 1000);
+</script>
+</body>
+</html>
