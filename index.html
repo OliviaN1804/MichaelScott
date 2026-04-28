@@ -93,4 +93,115 @@ const quotes = [
   "If I had a superpower, it would be to have unlimited superpowers.",
   "Some people say that I am too generous. Those people have never needed something from me.",
   "The best thing about being a regional manager is that I get to be the captain of this little ship.",
-  "I don't understand the rules of soup. I've been ea
+  "I don't understand the rules of soup. I've been eating it wrong my whole life.",
+  "When I said that we were going to run this company like a machine, I pictured more of a fun machine. Like a pinball machine.",
+  "I am fluent in French, Spanish, and English. And I am conversational in Italian, Japanese, and German. None of this is true.",
+  "My weakness? I care too much. And I work too hard. And sometimes I'm too nice to people who don't deserve it.",
+  "I am not afraid of heights. I am afraid of width.",
+  "I would not say I am the world's best boss. I would say that I am one of the top... ones.",
+  "I always say, if you can make just one person smile today, you've wasted the rest of your day.",
+  "It's a beautiful day. The sun is shining, the birds are singing. And I am the king of the world.",
+  "I am not the kind of guy who says, 'I told you so.' But I am the kind of guy who thinks it very loudly.",
+  "Identity theft is not a joke, Jim! Millions of families suffer every year!",
+  "I am so lucky to have been raised right. My mother always said: Michael, if you can dream it, you can do it. And I dreamed of being the world's best boss. So here we are.",
+  "I need people to be afraid of how much they love me. That is the goal. That has always been the goal.",
+  "I would not be a good astronaut. Not because I'm not smart enough, but because I'd want to be the pilot. And you can't always be the pilot.",
+  "I brake for birds. I rock a lot of polka dots. I have touched glitter in the last 24 hours.",
+  "I'm not insulted, I'm just hurt. There's a difference. I'm also a little insulted.",
+  "I'm not good at advice. Can I interest you in a sarcastic comment?",
+  "I have a lot of feelings and I'm not afraid to show them. Unlike some people. Schmidt.",
+  "I've seen every episode of ER. I know what they do there and it is not pretty.",
+  "Put it in the douchebag jar, Schmidt.",
+  "I may look like I'm doing nothing but I'm definitely doing something.",
+  "I once cried because I thought my reflection was someone else and I felt bad for how ugly he looked.",
+  "I can't believe Nick is getting married before me. I went to Miami once.",
+  "I will never, ever stop calling you Douchebag. That's what I'm here for.",
+  "Do you know how long it would take to sew a hat this fancy? Like, a week. I have receipts.",
+  "I need to stop acting like a college student. I'm almost 30.",
+  "You deserve someone who likes you exactly as you are. Weird, quirky, awkwardly-timed dance moves and all.",
+  "Prank Sinatra strikes again.",
+  "My body is a road map of the mistakes I've made in this life, and I regret none of them.",
+  "I was just born a grouch. I'm like Oscar the Grouch but way meaner.",
+  "I'm an adult woman and I can make my own decisions. But can we vote on it?",
+  "I used to be cool. I think. Someone must have thought I was cool at some point. Right?",
+  "I've been described by many people as impossibly handsome and frighteningly put-together.",
+  "I can't go to prison, Jess. You know what they do to people like me? They're very mean to them.",
+  "You guys fight like an old married couple, which is sweet, and also deeply concerning.",
+  "You can't be romantic with a fondue pot. Well — you can. I have. That's beside the point.",
+  "I maintain that the bathrobe is an underused formal garment.",
+  "I'm going to prank everyone so hard their children will feel it.",
+  "I went to college and I have a lot of feelings. They're like pasta water — they bubble up.",
+  "I'm scared of everything. Stairs, heights, needles, the future, butterflies up close — the list is long.",
+  "I'm a fun, quirky girl. That is literally the only pitch I have.",
+  "I cried at a movie once. I will say it had talking animals.",
+  "I'm a gym teacher. I don't know how to talk to people unless there's a ball involved.",
+  "I wrote you a poem. It's seventeen stanzas and I set it to a Shania Twain beat.",
+  "I would rather fight a bear than go to brunch. At least the bear doesn't make you split the check.",
+  "I'm great at scrapbooking, I know every word to Uptown Girl, and I make incredible soup.",
+  "My cat is smarter than most people I know and twice as loyal.",
+  "Jess, why are you wearing a cape? That's not a rhetorical question. I need to know.",
+  "I can't be held responsible for what my face does when I'm feeling things.",
+  "I don't believe in banks. I keep my money in a jar on the windowsill like a civilized person.",
+  "If I ever go to prison my plan is to be the funny one. No one hurts the funny one.",
+  "I express all my emotions through yelling. Even joy. Especially joy.",
+  "I've eaten at every restaurant in this city. I wrote a blog about it. No one read the blog. I still wrote it.",
+  "My idea of meal prep is moving the pizza box closer to the couch.",
+  "I don't understand why everyone doesn't want to do arts and crafts all the time.",
+  "I'm the wildcard. Every friend group needs one. I am that wildcard.",
+  "I am very secure in who I am. I require constant validation, but I am very secure.",
+  "I've had three ideas in my life and two of them were about food. I'm not embarrassed.",
+  "I just want to be the person who makes you smile. Is that so weird? Maybe a little.",
+  "New Girl alert! Doin' it for the ladies!",
+  "I once stayed up all night trying to figure out if a prank was too mean. The answer was yes. I did it anyway.",
+  "I have big feelings. That is who I am as a person. I'm not changing.",
+  "I'm not weird. I'm just operating at a frequency most people can't detect."
+];
+
+function getRandomIndex() {
+  return Math.floor(Math.random() * quotes.length);
+}
+
+function getSecondsUntilNextHour() {
+  const now = new Date();
+  return 3600 - (now.getMinutes() * 60 + now.getSeconds());
+}
+
+function fitText(el) {
+  const padding = 96;
+  const maxHeight = window.innerHeight - padding;
+
+  let size = 80;
+  el.style.fontSize = size + 'px';
+
+  while (el.scrollHeight > maxHeight && size > 8) {
+    size -= 1;
+    el.style.fontSize = size + 'px';
+  }
+}
+
+function setQuote(text) {
+  const el = document.getElementById('quote');
+  el.textContent = '\u201c' + text + '\u201d';
+  fitText(el);
+}
+
+window.addEventListener('resize', () => fitText(document.getElementById('quote')));
+
+setQuote(quotes[getRandomIndex()]);
+
+let secondsLeft = getSecondsUntilNextHour();
+setInterval(() => {
+  secondsLeft--;
+  if (secondsLeft <= 0) {
+    secondsLeft = 3600;
+    const el = document.getElementById('quote');
+    el.classList.add('fade');
+    setTimeout(() => {
+      setQuote(quotes[getRandomIndex()]);
+      el.classList.remove('fade');
+    }, 400);
+  }
+}, 1000);
+</script>
+</body>
+</html>
