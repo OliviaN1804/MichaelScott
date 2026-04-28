@@ -7,10 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
   body {
     background: #ffffff;
     color: #111111;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,6 +21,7 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     line-height: 1.7;
+    width: 100%;
     max-width: 520px;
     text-align: center;
     transition: opacity 0.4s ease;
@@ -115,7 +117,28 @@ function getSecondsUntilNextHour() {
   return 3600 - (now.getMinutes() * 60 + now.getSeconds());
 }
 
-document.getElementById('quote').textContent = '\u201c' + quotes[getHourlyIndex()] + '\u201d';
+function fitText(el) {
+  const padding = 96;
+  const maxHeight = window.innerHeight - padding;
+
+  let size = 80;
+  el.style.fontSize = size + 'px';
+
+  while (el.scrollHeight > maxHeight && size > 8) {
+    size -= 1;
+    el.style.fontSize = size + 'px';
+  }
+}
+
+function setQuote(text) {
+  const el = document.getElementById('quote');
+  el.textContent = '\u201c' + text + '\u201d';
+  fitText(el);
+}
+
+window.addEventListener('resize', () => fitText(document.getElementById('quote')));
+
+setQuote(quotes[getHourlyIndex()]);
 
 let secondsLeft = getSecondsUntilNextHour();
 setInterval(() => {
@@ -125,7 +148,7 @@ setInterval(() => {
     const el = document.getElementById('quote');
     el.classList.add('fade');
     setTimeout(() => {
-      el.textContent = '\u201c' + quotes[getHourlyIndex()] + '\u201d';
+      setQuote(quotes[getHourlyIndex()]);
       el.classList.remove('fade');
     }, 400);
   }
